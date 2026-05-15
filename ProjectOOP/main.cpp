@@ -7,6 +7,7 @@
 #include "Common.h"
 #include "Game.h"
 #include "MainMenuState.h"
+#include "opening.h"
 using namespace std;
 
 int main() {

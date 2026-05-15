@@ -1,6 +1,7 @@
 #pragma once
 #include "GameManager.h"
 #include "NPC.h"
+#include "Opening.h"
 #include <windows.h>
 #include <iostream>
 

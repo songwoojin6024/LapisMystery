@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Maps.h"
 #include <conio.h>
+#include <limits>
 #include"face1.h"
 #include"face2.h"
 using namespace std;
@@ -75,15 +76,16 @@ void interactWithNPC(NPC* npc, Player& p) {
 }
 
 void runStory(GameState& state) {
+    playOpening();
     system("cls");
 
     const int FACE_HEIGHT = 18;
     const int DIALOGUE_OFFSET = 5;
-    const int TEXT_SPEED = 100;
+    const int TEXT_SPEED = 70;
     const int DIALOGUE_WAIT = 1000;
-
-
     int frame = 0;
+
+    string playerName = "탐정"; 
 
     auto playFrame = [&]() {
         gotoxy(0, 0);
@@ -113,17 +115,80 @@ void runStory(GameState& state) {
             Sleep(TEXT_SPEED);
         }
         gotoxy(0, 0);
-        face2();
+        face2();// 대화 끝나면 입 다물기
         };
 
-    string dialogues[] = {
+    // 1. 첫 대사
+    typeDialogue("안녕하세요! 당신이 그 탐정이시군요.");
+    Sleep(DIALOGUE_WAIT);
+
+    // 2. 이름 질문
+    typeDialogue("당신의 이름이 무엇입니까???");
+
+    // 이름 입력 칸 만들기
+    int inputY = FACE_HEIGHT + DIALOGUE_OFFSET + 2;
+    gotoxy(0, inputY);
+    cout << "이름 입력: ";
+
+    // 콘솔에서 이름을 입력받을 때 커서가 보이도록 설정
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = true; // 커서 보이기
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+
+    playerName = "";
+
+    while (true)
+    {
+        int ch = _getch();
+
+        if (ch == '\r') // Enter
+        {
+            break;
+        }
+        else if (ch == '\b') // Backspace
+        {
+            if (!playerName.empty())
+            {
+                playerName.pop_back();
+                cout << "\b \b";
+            }
+        }
+        else
+        {
+            playerName += (char)ch;
+            cout << (char)ch;
+        }
+    }
+
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+
+    cursorInfo.bVisible = false; // 다시 커서 숨기기
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+
+    // 입력받은 줄 지우기
+    gotoxy(0, inputY);
+    cout << string(50, ' ');
+
+    // 3. 이름 확인 대사
+    typeDialogue("아, 당신의 이름은 " + playerName + "(이)군요!!");
+    Sleep(DIALOGUE_WAIT);
+
+    // 4. 나머지 대화 (playerName 활용 가능)
+    string restDialogues[] = {
+        "자, " + playerName + " 탐정님! 도난 당한 청금석을 되찾아 볼까요?",
+        "사전에 조사 된 바에 따르면 용의자는 총 5명입니다.",
+        "증거를 모아 범인을 찾아 보아요!",
+    };
+    /*string dialogues[] = {
         "안녕하세요! 당신이 그 탐정이시군요.",
         "도난 당한 청금석 되찾아 볼까요?",
         "사전에 조사 된 바에 따르면 용의자는 총 5명입니다.",
         "증거를 모아 범인을 찾아 보아요!",
     };
-
-    for (const string& d : dialogues) {
+    */
+    for (const string& d : restDialogues) {
         typeDialogue(d);
         Sleep(DIALOGUE_WAIT);
     }
@@ -131,9 +196,24 @@ void runStory(GameState& state) {
     gotoxy(0, FACE_HEIGHT + DIALOGUE_OFFSET + 2);
     cout << ">> [ S ] 키를 눌러 캠퍼스로 나가기...";
 
-    char key;
-    while ((key = _getch()) != 's' && key != 'S') {}
+    while (true)
+    {
+        if (GetAsyncKeyState('S') & 0x8000)
+            break;
+
+        Sleep(10);
+    }
+
+    // S 키에서 손 뗄 때까지 기다리기
+    while (GetAsyncKeyState('S') & 0x8000)
+    {
+        Sleep(10);
+    }
+
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+
     state = WORLD_MAP;
+    return;
 }
 
 void runWorldMap(GameState& state, Player& p, MapData& world, MapData& library, MapData& engineering, MapData& mainB) {
