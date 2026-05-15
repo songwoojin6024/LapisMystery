@@ -76,7 +76,7 @@ void interactWithNPC(NPC* npc, Player& p) {
 }
 
 void runStory(GameState& state) {
-    //playOpening();
+    playOpening();
     system("cls");
 
     const int FACE_HEIGHT = 18;
