@@ -76,7 +76,7 @@ void interactWithNPC(NPC* npc, Player& p) {
 }
 
 void runStory(GameState& state) {
-    playOpening();
+    //playOpening();
     system("cls");
 
     const int FACE_HEIGHT = 18;
@@ -137,31 +137,9 @@ void runStory(GameState& state) {
     cursorInfo.bVisible = true; // 커서 보이기
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 
-    playerName = "";
-
-    while (true)
-    {
-        int ch = _getch();
-
-        if (ch == '\r') // Enter
-        {
-            break;
-        }
-        else if (ch == '\b') // Backspace
-        {
-            if (!playerName.empty())
-            {
-                playerName.pop_back();
-                cout << "\b \b";
-            }
-        }
-        else
-        {
-            playerName += (char)ch;
-            cout << (char)ch;
-        }
-    }
-
+    cin >> playerName; // 이름 입력받기
+    cin.clear();
+    cin.ignore(10000, '\n');
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 
     cursorInfo.bVisible = false; // 다시 커서 숨기기
