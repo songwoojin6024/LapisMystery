@@ -5,8 +5,86 @@
 #include <limits>
 #include"face1.h"
 #include"face2.h"
+#include"DialogueNPC.h"
+#include "DialogueNPCData.h"
+#include <windows.h>
+#include <imm.h>
+#pragma comment(lib, "imm32.lib")
 using namespace std;
 
+char getMoveKey() {
+    static int heldKey = 0;
+    static DWORD nextRepeatTime = 0;
+
+    const DWORD FIRST_REPEAT_DELAY = 260;
+    const DWORD VERTICAL_INTERVAL = 90;    // 위/아래 속도
+    const DWORD HORIZONTAL_INTERVAL = 35;  // 왼쪽/오른쪽 속도
+
+    while (true) {
+        int currentKey = 0;
+        char move = 0;
+        DWORD repeatInterval = VERTICAL_INTERVAL;
+
+        if ((GetAsyncKeyState('W') & 0x8000) || (GetAsyncKeyState(VK_UP) & 0x8000)) {
+            currentKey = 'W';
+            move = 'w';
+            repeatInterval = VERTICAL_INTERVAL;
+        }
+        else if ((GetAsyncKeyState('S') & 0x8000) || (GetAsyncKeyState(VK_DOWN) & 0x8000)) {
+            currentKey = 'S';
+            move = 's';
+            repeatInterval = VERTICAL_INTERVAL;
+        }
+        else if ((GetAsyncKeyState('A') & 0x8000) || (GetAsyncKeyState(VK_LEFT) & 0x8000)) {
+            currentKey = 'A';
+            move = 'a';
+            repeatInterval = HORIZONTAL_INTERVAL;
+        }
+        else if ((GetAsyncKeyState('D') & 0x8000) || (GetAsyncKeyState(VK_RIGHT) & 0x8000)) {
+            currentKey = 'D';
+            move = 'd';
+            repeatInterval = HORIZONTAL_INTERVAL;
+        }
+
+        DWORD now = GetTickCount();
+
+        if (currentKey == 0) {
+            heldKey = 0;
+            nextRepeatTime = 0;
+            Sleep(10);
+            continue;
+        }
+
+        if (currentKey != heldKey) {
+            heldKey = currentKey;
+            nextRepeatTime = now + FIRST_REPEAT_DELAY;
+            return move;
+        }
+
+        if (now >= nextRepeatTime) {
+            nextRepeatTime = now + repeatInterval;
+            return move;
+        }
+
+        Sleep(5);
+    }
+}
+void waitEnterOnly() {
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+
+    while (true) {
+        if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+            while (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+                Sleep(10);
+            }
+            break;
+        }
+
+        Sleep(10);
+    }
+
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+}
 void interactWithNPC(NPC* npc, Player& p) {
     system("cls");
 
@@ -26,7 +104,7 @@ void interactWithNPC(NPC* npc, Player& p) {
         system("cls");
         npc->talk();
         cout << "\n(엔터를 눌러 게임 시작...)" << endl;
-        _getch();
+        waitEnterOnly();
 
         if (npc->playGame()) {
             success = true;
@@ -75,9 +153,13 @@ void interactWithNPC(NPC* npc, Player& p) {
     system("cls");
 }
 
-void runStory(GameState& state) {
+void runStory(GameState& state, Player& p) {
     playOpening();
     system("cls");
+
+    const int FACE_X = 32;
+    const int FACE_Y = 2;
+    const int DIALOGUE_X = 24;
 
     const int FACE_HEIGHT = 18;
     const int DIALOGUE_OFFSET = 5;
@@ -88,34 +170,39 @@ void runStory(GameState& state) {
     string playerName = "탐정"; 
 
     auto playFrame = [&]() {
-        gotoxy(0, 0);
-        if (frame % 2 == 0) face1();
-        else                 face2();
+        if (frame % 2 == 0) face1(FACE_X, FACE_Y);
+        else                 face2(FACE_X, FACE_Y);
         frame++;
         };
 
     auto typeDialogue = [&](const string& text) {
-        int y = FACE_HEIGHT + DIALOGUE_OFFSET;
-        gotoxy(0, y);
-        cout << string(100, ' ');
+        int y = FACE_Y + FACE_HEIGHT + DIALOGUE_OFFSET;
+
+        gotoxy(DIALOGUE_X, y);
+        cout << string(90, ' ');
 
         string currentText;
+
         for (size_t i = 0; i < text.size();) {
             playFrame();
+
             unsigned char c = text[i];
             int charSize = 1;
+
             if ((c & 0xF0) == 0xE0) charSize = 3;
             else if ((c & 0xE0) == 0xC0) charSize = 2;
             else if ((c & 0xF8) == 0xF0) charSize = 4;
 
             currentText += text.substr(i, charSize);
-            gotoxy(0, y);
+
+            gotoxy(DIALOGUE_X, y);
             cout << currentText;
+
             i += charSize;
             Sleep(TEXT_SPEED);
         }
-        gotoxy(0, 0);
-        face2();// 대화 끝나면 입 다물기
+
+        face2(FACE_X, FACE_Y);
         };
 
     // 1. 첫 대사
@@ -126,28 +213,33 @@ void runStory(GameState& state) {
     typeDialogue("당신의 이름이 무엇입니까???");
 
     // 이름 입력 칸 만들기
-    int inputY = FACE_HEIGHT + DIALOGUE_OFFSET + 2;
-    gotoxy(0, inputY);
+    int dialogueY = FACE_Y + FACE_HEIGHT + DIALOGUE_OFFSET;
+    int inputY = dialogueY + 2;
+
+    gotoxy(DIALOGUE_X, inputY);
+    cout << string(90, ' ');
+    gotoxy(DIALOGUE_X, inputY);
     cout << "이름 입력: ";
 
     // 콘솔에서 이름을 입력받을 때 커서가 보이도록 설정
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(hConsole, &cursorInfo);
-    cursorInfo.bVisible = true; // 커서 보이기
+    cursorInfo.bVisible = true;
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 
-    cin >> playerName; // 이름 입력받기
+    cin >> playerName;
+    p.name = playerName;
     cin.clear();
     cin.ignore(10000, '\n');
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 
-    cursorInfo.bVisible = false; // 다시 커서 숨기기
+    cursorInfo.bVisible = false;
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 
     // 입력받은 줄 지우기
-    gotoxy(0, inputY);
-    cout << string(50, ' ');
+    gotoxy(DIALOGUE_X, inputY);
+    cout << string(90, ' ');
 
     // 3. 이름 확인 대사
     typeDialogue("아, 당신의 이름은 " + playerName + "(이)군요!!");
@@ -159,19 +251,12 @@ void runStory(GameState& state) {
         "사전에 조사 된 바에 따르면 용의자는 총 5명입니다.",
         "증거를 모아 범인을 찾아 보아요!",
     };
-    /*string dialogues[] = {
-        "안녕하세요! 당신이 그 탐정이시군요.",
-        "도난 당한 청금석 되찾아 볼까요?",
-        "사전에 조사 된 바에 따르면 용의자는 총 5명입니다.",
-        "증거를 모아 범인을 찾아 보아요!",
-    };
-    */
     for (const string& d : restDialogues) {
         typeDialogue(d);
         Sleep(DIALOGUE_WAIT);
     }
 
-    gotoxy(0, FACE_HEIGHT + DIALOGUE_OFFSET + 2);
+    gotoxy(DIALOGUE_X, FACE_Y + FACE_HEIGHT + DIALOGUE_OFFSET + 2);
     cout << ">> [ S ] 키를 눌러 캠퍼스로 나가기...";
 
     while (true)
@@ -197,8 +282,7 @@ void runStory(GameState& state) {
 void runWorldMap(GameState& state, Player& p, MapData& world, MapData& library, MapData& engineering, MapData& mainB) {
     renderGame(p, world);
 
-    char move = _getch();
-    if (move == -32) move = _getch();
+    char move = getMoveKey();
 
     int nx = p.x, ny = p.y;
     if (move == 'w' || move == 72) { ny--; p.dir = UP; }
@@ -246,8 +330,7 @@ void runWorldMap(GameState& state, Player& p, MapData& world, MapData& library, 
 void runLibrary(GameState& state, Player& p, MapData& library, NPC* libNpc) {
     renderGame(p, library);
 
-    char move = _getch();
-    if (move == -32) move = _getch();
+    char move = getMoveKey();
 
     int nx = p.x, ny = p.y;
     if (move == 'w' || move == 72) { ny--; p.dir = UP; }
@@ -272,8 +355,7 @@ void runLibrary(GameState& state, Player& p, MapData& library, NPC* libNpc) {
 void runEngineering(GameState& state, Player& p, MapData& engineering, NPC* engNpcs[]) {
     renderGame(p, engineering);
 
-    char move = _getch();
-    if (move == -32) move = _getch();
+    char move = getMoveKey();
 
     int nx = p.x, ny = p.y;
     if (move == 'w' || move == 72) { ny--; p.dir = UP; }
@@ -291,6 +373,9 @@ void runEngineering(GameState& state, Player& p, MapData& engineering, NPC* engN
     if (target == '3') { interactWithNPC(engNpcs[2], p); p.y++; }
     if (target == '4') { interactWithNPC(engNpcs[3], p); p.y++; }
     if (target == '5') { interactWithNPC(engNpcs[4], p); p.y++; }
+    if (target == 'P') { runDialogueNPC(professorNpc, p);
+        p.y++;
+    }
     if (target == 'E') {
         state = WORLD_MAP;
         p.x = engineering.exitX;
@@ -301,8 +386,7 @@ void runEngineering(GameState& state, Player& p, MapData& engineering, NPC* engN
 void runMainBuilding(GameState& state, Player& p, MapData& mainBuilding) {
     renderGame(p, mainBuilding);
 
-    char move = _getch();
-    if (move == -32) move = _getch();
+    char move = getMoveKey();
 
     int nx = p.x, ny = p.y;
     if (move == 'w' || move == 72) { ny--; p.dir = UP; }

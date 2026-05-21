@@ -2,11 +2,12 @@
 #include <vector>
 #include <string>
 
-enum GameState { MAIN_MENU, STORY, WORLD_MAP, LIBRARY, ENGINEERING, CAFE, MAIN_BUILDING, ENDING };
+enum GameState { MAIN_MENU, STORY, WORLD_MAP, LIBRARY, ENGINEERING, CAFE, MAIN_BUILDING, ENDING, BAD_ENDING };
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
 class Player {
 public:
+    std::string name = "Å½Á¤";
     int x = 5;
     int y = 23;
     int hearts = 3;

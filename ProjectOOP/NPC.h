@@ -6,6 +6,26 @@
 #include"CardGame.h"
 using namespace std;
 
+inline char getChoiceKey(const string& keys) {
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+
+    while (true) {
+        for (char key : keys) {
+            SHORT state = GetAsyncKeyState(toupper(key));
+
+            if (state & 0x8000) {
+                while (GetAsyncKeyState(toupper(key)) & 0x8000) {
+                    Sleep(10);
+                }
+
+                return key;
+            }
+        }
+
+        Sleep(10);
+    }
+}
+
 class NPC {
 protected:
     string name;
@@ -42,9 +62,9 @@ public:
         cout << "   b) 최저임금" << endl;
         cout << "   c) 빈곤왕" << endl;
         cout << "\n>> 답을 입력하세요 (a/b/c): ";
-        char key = _getch();
+        char key = getChoiceKey("abc");
         cout << key << endl;
-        return (key == 'b' || key == 'B');
+        return (key == 'b');
     }
 };
 
@@ -67,7 +87,7 @@ public:
     }
     bool playGame() override {
         cout << ">> 1.가위  2.바위  3.보 (번호 키 누르기): ";
-        char key = _getch();
+        char key = getChoiceKey("123");
         cout << key << endl;
         int choice = key - '0';
         return (choice != 1);
@@ -82,7 +102,7 @@ public:
     }
     bool playGame() override {
         cout << ">> 1.가위  2.바위  3.보 (번호 키 누르기): ";
-        char key = _getch();
+        char key = getChoiceKey("123");
         cout << key << endl;
         int choice = key - '0';
         return (choice != 1);
@@ -97,7 +117,7 @@ public:
     }
     bool playGame() override {
         cout << ">> 1.가위  2.바위  3.보 (번호 키 누르기): ";
-        char key = _getch();
+        char key = getChoiceKey("123");
         cout << key << endl;
         int choice = key - '0';
         return (choice != 1);
@@ -112,7 +132,7 @@ public:
     }
     bool playGame() override {
         cout << ">> 1.가위  2.바위  3.보 (번호 키 누르기): ";
-        char key = _getch();
+        char key = getChoiceKey("123");
         cout << key << endl;
         int choice = key - '0';
         return (choice != 1);

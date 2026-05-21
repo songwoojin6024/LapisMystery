@@ -2,30 +2,29 @@
 #define FACE1_H
 
 #include <iostream>
+#include "Common.h"
 using namespace std;
 
-void face1() {
-
-	cout << "                    #######_                   " << endl;
-	cout << "                _############′                " << endl;
-	cout << "             /#################′              " << endl;
-	cout << "            /###'        #######′             " << endl;
-	cout << "           /###             '####′            " << endl;
-	cout << "           ####              '####             " << endl;
-	cout << "           ###  Ｈ===Ｊ    Ｈ===Ｊ ##|         " << endl;
-	cout << "            ##天[ /﹥′]天[/﹥′]天/           " << endl;
-	cout << "            ′|                |/)             " << endl;
-	cout << "              |      \\__/      |              " << endl;
-	cout << "               |  { ______ }  /                " << endl;
-	cout << "               ′  ′_____/  /                 " << endl;
-	cout << "                ′          /                  " << endl;
-	cout << "                | ′______Ｈ |                 " << endl;
-	cout << "           _____|           |____              " << endl;
-	cout << "       ___ㄞ    ′          /    ′___         " << endl;
-	cout << "                 ′__    __/                   " << endl;
-	cout << "       [      ]   |  ′ /  |                   " << endl;
-	cout << "                                               " << endl;
-
+void face1(int x = 0, int y = 0) {
+    gotoxy(x, y++); cout << "                    #######_                   ";
+    gotoxy(x, y++); cout << "                _############′                ";
+    gotoxy(x, y++); cout << "             /#################′              ";
+    gotoxy(x, y++); cout << "            /###'        #######′             ";
+    gotoxy(x, y++); cout << "           /###             '####′            ";
+    gotoxy(x, y++); cout << "           ####              '####             ";
+    gotoxy(x, y++); cout << "           ###  Ｈ===Ｊ    Ｈ===Ｊ ##|         ";
+    gotoxy(x, y++); cout << "            ##天[ /﹥′]天[/﹥′]天/           ";
+    gotoxy(x, y++); cout << "            ′|                |/)             ";
+    gotoxy(x, y++); cout << "              |      \\__/      |              ";
+    gotoxy(x, y++); cout << "               |  { ______ }  /                ";
+    gotoxy(x, y++); cout << "               ′  ′_____/  /                 ";
+    gotoxy(x, y++); cout << "                ′          /                  ";
+    gotoxy(x, y++); cout << "                | ′______Ｈ |                 ";
+    gotoxy(x, y++); cout << "           _____|           |____              ";
+    gotoxy(x, y++); cout << "       ___ㄞ    ′          /    ′___         ";
+    gotoxy(x, y++); cout << "                 ′__    __/                   ";
+    gotoxy(x, y++); cout << "       [      ]   |  ′ /  |                   ";
+    gotoxy(x, y++); cout << "                                               ";
 }
 
 #endif

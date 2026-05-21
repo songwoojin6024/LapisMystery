@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <conio.h>
 #include <windows.h>
 #include "GameManager.h"
@@ -8,6 +8,8 @@
 #include "Game.h"
 #include "MainMenuState.h"
 #include "opening.h"
+#include "BadEnding.h"
+#include "DialogueNPCData.h"
 using namespace std;
 
 int main() {
@@ -21,27 +23,34 @@ int main() {
 
     NPC* engNpcs[] = { &engNpc1, &engNpc2, &engNpc3, &engNpc4, &engNpc5 };
 
-    MapData world = { worldMap, "ìº í¼ìŠ¤",    11, 0,  0 };
-    MapData library = { libMap,   "ë„ì„œê´€ ë‚´ë¶€", 11, 102, 7 };
-    MapData engineering = { engMap,   "ê³µê³¼ëŒ€í•™",   11, 99, 29 };
-	MapData main_build = { mainBMap, "ë³¸ê´€", 11, 33, 12 };
+    MapData world = { worldMap, "Ä·ÆÛ½º",    11, 0,  0 };
+    MapData library = { libMap,   "µµ¼­°ü ³»ºÎ", 11, 102, 7 };
+    MapData engineering = { engMap,   "°ø°ú´ëÇĞ",   11, 99, 29 };
+	MapData main_build = { mainBMap, "º»°ü", 11, 33, 12 };
 
     while (true) {
+        if (p.hearts <= 0) {
+            state = BAD_ENDING;
+        }
         if (state == MAIN_MENU)       runMainMenu(state);
-        else if (state == STORY)       runStory(state);
+        else if (state == STORY)       runStory(state, p);
         else if (state == WORLD_MAP)   runWorldMap(state, p, world, library, engineering, main_build);
         else if (state == LIBRARY) runLibrary(state, p, library, &libNpc);
         else if (state == ENGINEERING) runEngineering(state, p, engineering, engNpcs);
         else if (state == MAIN_BUILDING) runMainBuilding(state, p, main_build);
-         else if (state == ENDING) {
+        else if (state == ENDING) {
              system("cls");
-             cout << "\n\n\n\t\t [ì—”ë”©] \n\n" << endl;
-             cout << "\t ì²­ê¸ˆì„ì„ ë˜ì°¾ê³  ì´ì¥ë‹˜ê»˜ ëŒì•„ê°”ë‹¤." << endl;
-             cout << "\t ì´ì¥ë‹˜: 'ì˜í–ˆì–´! ì¥í•™ê¸ˆì€ ë‹¤ìŒ í•™ê¸°ì— ì§€ê¸‰í• ê²Œ!'" << endl;
-             cout << "\n\t >> ê²Œì„ì„ ì¢…ë£Œí•˜ë ¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ëˆ„ë¥´ì„¸ìš”..." << endl;
+             cout << "\n\n\n\t\t [¿£µù] \n\n" << endl;
+             cout << "\t Ã»±İ¼®À» µÇÃ£°í ÃÑÀå´Ô²² µ¹¾Æ°¬´Ù." << endl;
+             cout << "\t ÃÑÀå´Ô: 'ÀßÇß¾î! ÀåÇĞ±İÀº ´ÙÀ½ ÇĞ±â¿¡ Áö±ŞÇÒ°Ô!'" << endl;
+             cout << "\n\t >> °ÔÀÓÀ» Á¾·áÇÏ·Á¸é ¾Æ¹« Å°³ª ´©¸£¼¼¿ä..." << endl;
              _getch();
              break;
 		}
+        else if (state == BAD_ENDING) {
+            runBadEnding();
+            break;
+        }
     }
     return 0;
 }
