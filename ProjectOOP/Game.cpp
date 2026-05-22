@@ -84,6 +84,46 @@ void waitEnterOnly() {
     }
 
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+}/*
+void showSearchRecord() {
+    system("cls");
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+
+    cout << "\n\n";
+    cout << "\t[ 누군가의 검색 기록 ]\n\n";
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+    cout << "\t* \"청금석 시세\"\n";
+    cout << "\t* \"대형 조형물 판매\"\n";
+    cout << "\t* \"중고 운반 장비\"\n";
+
+    cout << "\n\n\t(아무 키나 누르면 돌아갑니다.)";
+
+    while (_kbhit()) _getch();
+    _getch();
+
+    system("cls");
+}
+
+void showEmptyComputer() {
+    system("cls");
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+
+    cout << "\n\n";
+    cout << "\t컴퓨터를 확인했다.\n";
+    cout << "\t하지만 특별한 내용은 없어 보인다.\n";
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+    cout << "\n\n\t(아무 키나 누르면 돌아갑니다.)";
+
+    while (_kbhit()) _getch();
+    _getch();
+
+    system("cls");
 }
 void interactWithNPC(NPC* npc, Player& p) {
     system("cls");
@@ -154,7 +194,7 @@ void interactWithNPC(NPC* npc, Player& p) {
 }
 
 void runStory(GameState& state, Player& p) {
-    playOpening();
+    //playOpening();
     system("cls");
 
     const int FACE_X = 32;
@@ -344,6 +384,8 @@ void runLibrary(GameState& state, Player& p, MapData& library, NPC* libNpc) {
 
     if (target != '#') { p.x = nx; p.y = ny; }
     if (target == '&') { interactWithNPC(libNpc, p); p.y++; }
+    if (target == '@') { showSearchRecord();p.y++;}
+    if (target == '!') {showEmptyComputer();p.y++;}
     if (target == 'E') {
         state = WORLD_MAP;
         p.x = library.exitX;
@@ -405,4 +447,4 @@ void runMainBuilding(GameState& state, Player& p, MapData& mainBuilding) {
         p.y = mainBuilding.exitY;
         system("cls");
     }
-}
+}*/

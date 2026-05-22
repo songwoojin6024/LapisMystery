@@ -50,7 +50,7 @@ public:
 
 class LibraryNPC : public NPC {
 public:
-    LibraryNPC() : NPC("공부벌레", "범인은 안경을 썼어!") {}
+    LibraryNPC() : NPC("공부벌레", "누가 주식이랑 코인투자 실패로 돈이 급하다고 했는데...") {}
 
     void talk() override {
         cout << "\n[" << name << "]: 공부 방해하지 말고 비켜! 나를 이기면 정보를 주지." << endl;

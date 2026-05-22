@@ -4,6 +4,8 @@
 #include "Opening.h"
 #include <windows.h>
 #include <iostream>
+char getMoveKey();
+void waitEnterOnly();
 
 void interactWithNPC(NPC* npc, Player& p);
 void runStory(GameState& state, Player& p);

@@ -71,15 +71,22 @@ static void cg_drawBoard(const vector<CardTile>& board, int cursorPos,
 
 static void cg_showResult(int tries) {
     system("cls");
-    cg_gotoxy(42, 15); wcout << L"◈━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◈";
-    cg_gotoxy(42, 16); wcout << L"┃       모든 카드를 맞췄습니다! ┃";
+
+    cg_gotoxy(42, 15);
+    wcout << L"◈━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◈";
+
+    cg_gotoxy(42, 16);
+    wcout << L"        모든 카드를 맞췄습니다!";
+
     cg_gotoxy(42, 17);
-    wcout << L"┃   총 시도 횟수: " << tries;
-    int pad = (tries < 10) ? 16 : 15;
-    for (int i = 0; i < pad; ++i) wcout << L" ";
-    wcout << L"┃";
-    cg_gotoxy(42, 18); wcout << L"◈━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◈";
-    cg_gotoxy(48, 20); wcout << L"[ 아무 키나 누르면 계속... ]";
+    wcout << L"    총 시도 횟수: " << tries;
+
+    cg_gotoxy(42, 18);
+    wcout << L"◈━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◈";
+
+    cg_gotoxy(48, 20);
+    wcout << L"[ 아무 키나 누르면 계속... ]";
+
     _getch();
 }
 

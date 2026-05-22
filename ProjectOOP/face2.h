@@ -5,7 +5,7 @@
 #include "Common.h"
 using namespace std;
 
-void face2(int x = 0, int y = 0) {
+inline void face2(int x = 0, int y = 0) {
     gotoxy(x, y++); cout << "                    #######_                 ";
     gotoxy(x, y++); cout << "                _############¡¬                ";
     gotoxy(x, y++); cout << "             /#################¡¬               ";

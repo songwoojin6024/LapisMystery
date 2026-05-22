@@ -128,6 +128,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maps.cpp" />
+    <ClCompile Include="MapStates.cpp" />
+    <ClCompile Include="NPCInteraction.cpp" />
+    <ClCompile Include="Story.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BadEnding.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="face2.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="InvestigationObjects.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Maps.h" />
     <ClInclude Include="NPC.h" />

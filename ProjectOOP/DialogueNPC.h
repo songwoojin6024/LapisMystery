@@ -43,6 +43,18 @@ inline wstring dnToWide(const string& text) {
     return result;
 }
 
+inline wstring dnShortHint(const string& hint) {
+    wstring text = dnToWide(hint);
+
+    const int MAX_LEN = 12;
+
+    if ((int)text.length() > MAX_LEN) {
+        return text.substr(0, MAX_LEN) + L"...";
+    }
+
+    return text;
+}
+
 inline void dnWaitReleasedInputKeys() {
     while ((GetAsyncKeyState(VK_UP) & 0x8000) ||
         (GetAsyncKeyState(VK_DOWN) & 0x8000) ||
@@ -154,6 +166,7 @@ inline void dnDrawSidebar(const Player& p, const DialogueNPCData& npc) {
     const int SIDE_X = 80;
     const int W = 39;
     const int TOTAL_H = 40;
+    const int MAX_HINTS = 15;
 
     auto line = [&](int y, wchar_t l, wchar_t m, wchar_t r) {
         dnGotoxy(SIDE_X, y);
@@ -176,36 +189,26 @@ inline void dnDrawSidebar(const Player& p, const DialogueNPCData& npc) {
     row(3); dnGotoxy(SIDE_X + 2, 3); wcout << L"이름 : " << dnToWide(p.name);
     row(4); dnGotoxy(SIDE_X + 2, 4); wcout << L"위치 : " << npc.location;
 
-    line(5, L'╠', L'═', L'╣');
-    row(6);
-    dnGotoxy(SIDE_X + 2, 6);
-    wcout << L"목숨 : ";
-    for (int i = 0; i < 3; i++) {
-        wcout << (i < p.hearts ? L"♥ " : L"♡ ");
-    }
-
-    line(7, L'╚', L'═', L'╝');
-
     line(9, L'╔', L'═', L'╗');
     row(10);
     dnGotoxy(SIDE_X + 2, 10);
-    wcout << L"[ 단서 목록 ] " << p.hints.size();
+    wcout << L"[ 단서 목록 ] " << p.hints.size() << L"/" << MAX_HINTS;
 
     line(11, L'╠', L'═', L'╣');
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < MAX_HINTS; i++) {
         row(12 + i);
         dnGotoxy(SIDE_X + 2, 12 + i);
 
         if (i < (int)p.hints.size()) {
-            wcout << L"· " << dnToWide(p.hints[i]);
+            wcout << L"· " << dnShortHint(p.hints[i]);
         }
         else {
             wcout << L"· (미발견)";
         }
     }
 
-    for (int y = 21; y < TOTAL_H - 1; y++) row(y);
+    for (int y = 12 + MAX_HINTS; y < TOTAL_H - 1; y++) row(y);
     line(TOTAL_H - 1, L'╚', L'═', L'╝');
 }
 

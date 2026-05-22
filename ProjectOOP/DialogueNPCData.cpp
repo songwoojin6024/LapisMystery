@@ -38,7 +38,7 @@ DialogueNPCData tiredStudentNpc = {
       L"복도 끝 자판기 앞",
     L"밤샘한 공대생",
     L"공대생",
-    L"덕래관 복도",
+    L"덕래관 수업실",
     {
         L"       _______       ",
         L"     /         \\     ",
