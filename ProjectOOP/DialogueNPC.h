@@ -7,9 +7,11 @@
 #include <io.h>
 #include <fcntl.h>
 #include "GameManager.h"
+#include "Game.h"
 
 using namespace std;
 
+void addProgress(Player& p);
 struct DialogueChoice {
     wstring question;
     wstring answer;
@@ -22,6 +24,7 @@ struct DialogueNPCData {
     wstring location;
     vector<wstring> image;
     vector<DialogueChoice> choices;
+    bool cleared = false;
 };
 
 enum DialogueInput {
@@ -147,13 +150,30 @@ inline void dnDrawDialog(const DialogueNPCData& npc, const wstring& currentDialo
     dnGotoxy(3, DIALOG_Y + 1);
     wcout << L"[ " << npc.speaker << L" ]";
 
-    dnGotoxy(3, DIALOG_Y + 2);
-    wcout << L"\"" << currentDialog << L"\"";
+    const int DIALOG_MAX_LEN = 34;
+    wstring firstLine = currentDialog;
+    wstring secondLine = L"";
 
-    dnHline(1, DIALOG_Y + 4, MAIN_W - 2, L'├', L'─', L'┤');
+    if ((int)currentDialog.length() > DIALOG_MAX_LEN) {
+        firstLine = currentDialog.substr(0, DIALOG_MAX_LEN);
+        secondLine = currentDialog.substr(DIALOG_MAX_LEN);
+    }
+
+    dnGotoxy(3, DIALOG_Y + 2);
+    wcout << L"\"" << firstLine;
+
+    if (!secondLine.empty()) {
+        dnGotoxy(3, DIALOG_Y + 3);
+        wcout << secondLine << L"\"";
+    }
+    else {
+        wcout << L"\"";
+    }
+
+    dnHline(1, DIALOG_Y + 5, MAIN_W - 2, L'├', L'─', L'┤');
 
     for (int i = 0; i < (int)npc.choices.size(); i++) {
-        dnGotoxy(4, DIALOG_Y + 5 + i * 2);
+        dnGotoxy(4, DIALOG_Y + 6 + i * 2);
         wcout << (i == choiceCursor ? L"▶  " : L"   ");
         wcout << npc.choices[i].question;
     }
@@ -212,7 +232,7 @@ inline void dnDrawSidebar(const Player& p, const DialogueNPCData& npc) {
     line(TOTAL_H - 1, L'╚', L'═', L'╝');
 }
 
-inline void runDialogueNPC(const DialogueNPCData& npc, Player& p) {
+inline void runDialogueNPC(DialogueNPCData& npc, Player& p) {
     _setmode(_fileno(stdout), _O_U16TEXT);
     dnWaitReleasedInputKeys();
 
@@ -238,6 +258,10 @@ inline void runDialogueNPC(const DialogueNPCData& npc, Player& p) {
             currentDialog = npc.choices[choiceCursor].answer;
         }
         else if (input == DN_ESC) {
+            if (!npc.cleared) {
+                addProgress(p);
+                npc.cleared = true;
+            }
             break;
         }
     }

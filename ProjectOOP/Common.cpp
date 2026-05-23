@@ -26,7 +26,14 @@ void renderGame(Player& p, MapData& m) {
     cout << " [STATUS] ";
     for (int i = 0; i < p.hearts; i++) cout << "¢¾ ";
     for (int i = p.hearts; i < 3; i++) cout << "¢½ ";
-    cout << "| Money: " << p.money << "¿ø | Hints: " << p.hints.size() << endl;
+    int percent = 0;
+
+    if (p.maxProgress > 0) {
+        percent = (p.progress * 100) / p.maxProgress;
+    }
+
+    cout << "| Money: " << p.money << "¿ø | Hints: " << p.hints.size()
+        << " | Progress: " << percent << "%" << endl;
     cout << " [POS] X: " << p.x << " Y: " << p.y << endl;
     cout << "==========================================================" << endl;
 }

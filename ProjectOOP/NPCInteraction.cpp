@@ -52,6 +52,7 @@ void interactWithNPC(NPC* npc, Player& p) {
         cout << "120¿øÀ» È¹µæÇß½À´Ï´Ù!" << endl;
         p.hints.push_back(npc->getHint());
         p.money += 120;
+        addProgress(p);
         npc->setCleared();
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
     }

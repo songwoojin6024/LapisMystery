@@ -4,3 +4,4 @@
 extern DialogueNPCData professorNpc;
 extern DialogueNPCData tiredStudentNpc;
 extern DialogueNPCData guardNpc;
+extern DialogueNPCData songWoojinNpc;

@@ -13,6 +13,8 @@ public:
     int hearts = 3;
     Direction dir = DOWN;
     int money = 500;
+    int progress = 0;
+    int maxProgress = 10;
     std::vector<std::string> hints;
 };
 

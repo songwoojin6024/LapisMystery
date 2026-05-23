@@ -99,14 +99,16 @@ void runEngineering(GameState& state, Player& p, MapData& engineering, NPC* engN
 
     char target = engMap[ny][nx];
 
-    if (target != '#') { p.x = nx; p.y = ny; }
+    if (target != '#' && target != '-' && target != '|') {p.x = nx; p.y = ny;}
     if (target == '!') { interactWithNPC(engNpcs[0], p); p.y++; }
     if (target == '@') { interactWithNPC(engNpcs[1], p); p.y++; }
     if (target == '%') { interactWithNPC(engNpcs[2], p); p.y++; }
     if (target == '$') { interactWithNPC(engNpcs[3], p); p.y++; }
     if (target == '&') { interactWithNPC(engNpcs[4], p); p.y++; }
     if (target == 'P') { runDialogueNPC(professorNpc, p); p.y++; }
+    if (target == 'A') { showSearchanalysis(p); p.y++; }
     if (target == 'T') { runDialogueNPC(tiredStudentNpc, p); p.y++; }
+    if (target == 'W') {runDialogueNPC(songWoojinNpc, p); p.y++; }
     if (target == 'E') {
         state = WORLD_MAP;
         p.x = engineering.exitX;
@@ -130,7 +132,7 @@ void runMainBuilding(GameState& state, Player& p, MapData& mainBuilding) {
     char target = mainBMap[ny][nx];
 
     if (target != '#') { p.x = nx; p.y = ny; }
-    if (target == 'T') { runDialogueNPC(guardNpc, p); p.y++; }
+    if (target == 'G') { runDialogueNPC(guardNpc, p); p.y++; }
     if (target == '?') {showScratchedFloor(p); p.y++;}
     if (target == 'E') {
         state = WORLD_MAP;

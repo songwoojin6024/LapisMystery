@@ -94,3 +94,32 @@ inline void showScratchedFloor(Player& p) {
 
     system("cls");
 }
+inline void showSearchanalysis(Player& p) {
+    system("cls");
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+
+    cout << "\n\n";
+    cout << "\t[ 청금석 내부 초전도체 성분 분석표 ]\n\n";
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+    cout << "\t* 청금석 내부 초전도체 성분 분석 결과.\n";
+
+    string hint = "청금석 내부 초전도체 성분 분석";
+
+    if (!hasHint(p, hint)) {
+        p.hints.push_back(hint);
+        cout << "\n\t[단서가 추가되었습니다.] " << hint << "\n";
+    }
+    else {
+        cout << "\n\t[이미 확인한 단서입니다.]\n";
+    }
+
+    cout << "\n\n\t(아무 키나 누르면 돌아갑니다.)";
+
+    while (_kbhit()) _getch();
+    _getch();
+
+    system("cls");
+}

@@ -7,6 +7,8 @@
 char getMoveKey();
 void waitEnterOnly();
 
+void addProgress(Player& p);
+int getProgressPercent(const Player& p);
 void interactWithNPC(NPC* npc, Player& p);
 void runStory(GameState& state, Player& p);
 void runWorldMap(GameState& state, Player& p, MapData& world, MapData& library, MapData& engineering, MapData& main_build);
