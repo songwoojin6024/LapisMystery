@@ -169,8 +169,8 @@ public:
 
         // 결과 출력
         for (int i = 0; i < 4; i++) {
-            if (results[i] == 1) cout << " WIN ";
-            else                 cout << " --- ";
+            if (results[i] == 1) cout << "  ★  ";
+            else                 cout << "  ✗  ";
         }
         cout << endl;
 
