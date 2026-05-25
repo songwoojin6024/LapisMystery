@@ -186,7 +186,7 @@ inline void dnDrawSidebar(const Player& p, const DialogueNPCData& npc) {
     const int SIDE_X = 80;
     const int W = 39;
     const int TOTAL_H = 40;
-    const int MAX_HINTS = 15;
+    const int MAX_HINTS = 17;
 
     auto line = [&](int y, wchar_t l, wchar_t m, wchar_t r) {
         dnGotoxy(SIDE_X, y);

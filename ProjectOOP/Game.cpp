@@ -45,6 +45,11 @@ char getMoveKey() {
             move = 'd';
             repeatInterval = HORIZONTAL_INTERVAL;
         }
+        else if (GetAsyncKeyState('I') & 0x8000) {
+            currentKey = 'I';
+            move = 'i';
+            repeatInterval = VERTICAL_INTERVAL;
+        }
 
         DWORD now = GetTickCount();
 

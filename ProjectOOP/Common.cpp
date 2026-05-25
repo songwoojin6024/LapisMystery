@@ -33,7 +33,8 @@ void renderGame(Player& p, MapData& m) {
     }
 
     cout << "| Money: " << p.money << "¿ø | Hints: " << p.hints.size()
-        << " | Progress: " << percent << "%" << endl;
+        << " | Progress: " << percent << "%"
+        << " | [I] Inventory" << endl;
     cout << " [POS] X: " << p.x << " Y: " << p.y << endl;
     cout << "==========================================================" << endl;
 }

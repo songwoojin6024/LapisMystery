@@ -83,5 +83,11 @@
     <ClInclude Include="InvestigationObjects.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="FinalDeduction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GoodEnding.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -140,8 +140,10 @@
     <ClInclude Include="DialogueNPCData.h" />
     <ClInclude Include="face1.h" />
     <ClInclude Include="face2.h" />
+    <ClInclude Include="FinalDeduction.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GoodEnding.h" />
     <ClInclude Include="InvestigationObjects.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Maps.h" />

@@ -103,7 +103,7 @@ void runStory(GameState& state, Player& p) {
     // 4. 나머지 대화 (playerName 활용 가능)
     string restDialogues[] = {
         "자, " + playerName + " 탐정님! 도난 당한 청금석을 되찾아 볼까요?",
-        "사전에 조사 된 바에 따르면 용의자는 총 5명입니다.",
+        "사전에 조사 된 바에 따르면 용의자는 총 4명입니다.",
         "증거를 모아 범인을 찾아 보아요!",
     };
     for (const string& d : restDialogues) {
