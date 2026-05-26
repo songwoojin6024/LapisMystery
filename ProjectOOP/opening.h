@@ -215,15 +215,11 @@ inline void playOpening() {
     if (openingSleep(3000)) return;
 
     system("cls"); art2(); cout << "\n\n";
-    if (printDialogue("총장께서는 이 돌을 학생 보ㄷ... 아니 학생 만큼 귀중히 여기신다.", 150)) return;
+    if (printDialogue("총장님께서는 학생 만큼 귀중히 여기신다.", 150)) return;
     if (openingSleep(3000)) return;
 
     system("cls"); art2(); cout << "\n\n";
-    if (printDialogue("이 영석(靈石)의 값은 감히 헤아릴 수 조차 없었다.", 150)) return;
-    if (openingSleep(3000)) return;
-
-    system("cls"); art2(); cout << "\n\n";
-    if (printDialogue("때문에 총장께서는 학생들의 등록금을 아주 '조금' 올려 그 돈으로 천라지망(天羅地網)을 펼치니...", 150)) return;
+    if (printDialogue("이 영석(靈石)의 값은 감히 헤아릴 수 조차 없었고.....", 150)) return;
     if (openingSleep(3000)) return;
 
     system("cls"); art2(); cout << "\n\n";
@@ -290,7 +286,7 @@ inline void playOpening() {
     if (openingSleep(2000)) return;
 
     system("cls"); art4(); cout << "\n\n";
-    if (printDialogue("오호라, 그렇다면 범인은 그 학과 학생중 하나렸다?", 150)) return;
+    if (printDialogue("오호라, 그렇다면 범인은 그 학과 학생중 하나였다?", 150)) return;
     if (openingSleep(1000)) return;
 
     system("cls"); art4(); cout << "\n\n";

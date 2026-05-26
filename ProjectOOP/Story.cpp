@@ -60,11 +60,9 @@ void runStory(GameState& state, Player& p) {
         face2(FACE_X, FACE_Y);
         };
 
-    // 1. 첫 대사
     typeDialogue("안녕하세요! 당신이 그 탐정이시군요.");
     Sleep(DIALOGUE_WAIT);
 
-    // 2. 이름 질문
     typeDialogue("당신의 이름이 무엇입니까???");
 
     // 이름 입력 칸 만들기
@@ -96,11 +94,9 @@ void runStory(GameState& state, Player& p) {
     gotoxy(DIALOGUE_X, inputY);
     cout << string(90, ' ');
 
-    // 3. 이름 확인 대사
     typeDialogue("아, 당신의 이름은 " + playerName + "(이)군요!!");
     Sleep(DIALOGUE_WAIT);
 
-    // 4. 나머지 대화 (playerName 활용 가능)
     string restDialogues[] = {
         "자, " + playerName + " 탐정님! 도난 당한 청금석을 되찾아 볼까요?",
         "사전에 조사 된 바에 따르면 용의자는 총 4명입니다.",

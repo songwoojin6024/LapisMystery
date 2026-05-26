@@ -4,7 +4,6 @@
 #include <windows.h>
 using namespace std;
 
-// Good Ending 전용 설정
 const int GE_TEXT_SPEED = 100;
 const int GE_DIALOGUE_WAIT = 3000;
 const int GE_NEWS_Y = 0;

@@ -21,7 +21,7 @@ static const wchar_t* CARD_LABELS[8] = {
     L" SIH ", L" PSH ", L" JSJ ", L" SWP "
 };
 
-// ── 유틸 ───────────────────────────────────────────────────────────────
+
 static void cg_gotoxy(int x, int y) {
     COORD pos = { (SHORT)x, (SHORT)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
