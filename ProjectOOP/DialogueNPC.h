@@ -12,12 +12,14 @@
 using namespace std;
 
 void addProgress(Player& p);
-struct DialogueChoice {
+class DialogueChoice {
+public:
     wstring question;
     wstring answer;
 };
 
-struct DialogueNPCData {
+class DialogueNPCData {
+public:
     wstring sceneName;
     wstring npcName;
     wstring speaker;

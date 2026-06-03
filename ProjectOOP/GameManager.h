@@ -10,15 +10,16 @@
     RESET_TALK
 };
 
-struct Item {
-    int id;
-    std::string name;
-    std::string description;
-    int price;
-    ItemType type;
-    int value;
-    int count;
-};
+ class Item {
+ public:
+     int id;
+     std::string name;
+     std::string description;
+     int price;
+     ItemType type;
+     int value;
+     int count;
+ };
 enum GameState { MAIN_MENU, STORY, WORLD_MAP, LIBRARY, ENGINEERING, CAFE, MAIN_BUILDING, ENDING, BAD_ENDING };
 enum Direction { UP, DOWN, LEFT, RIGHT };
 

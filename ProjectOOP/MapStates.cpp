@@ -223,8 +223,8 @@ void runMainBuilding(GameState& state, Player& p, MapData& mainBuilding, NPC* ma
 }
 void runCafe(GameState& state, Player& p, MapData& cafeMapData) {
     static vector<Item> shopItems = {
-        { 1, "[익명의 제보 서류]", "송우진의 신체 정보를 확인할 수 있습니다.", 1200, ItemType::FORCED_UNLOCK, 1, 0 },
-        { 2, "[증거 분석용 돋보기]", "교수의 방 분석하기.", 1200, ItemType::FORCED_UNLOCK, 2, 0 },
+        { 1, "[익명의 제보 서류]", "송우진의 신체 정보를 확인할 수 있습니다.", 900, ItemType::FORCED_UNLOCK, 1, 0 },
+        { 2, "[증거 분석용 돋보기]", "교수의 방 분석하기.", 900, ItemType::FORCED_UNLOCK, 2, 0 },
         { 3, "[뇌물용 초콜릿]", "어려운 미니게임 1개를 패스하고 단서를 얻습니다.", 300, ItemType::MINIGAME_PASS, 0, 0 },
         { 4, "[레쓰비 캔커피]", "하트를 1개 회복합니다.", 50, ItemType::HP_RECOVER, 1, 0 },
         { 5, "[매점 핫도그]", "하트를 3개 회복합니다.", 120, ItemType::HP_RECOVER, 3, 0 },

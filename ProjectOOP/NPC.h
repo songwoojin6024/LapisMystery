@@ -200,10 +200,15 @@ public:
         cout << "\n>> 카운팅 게임 시작! 21을 부르면 집니다." << endl;
         cout << ">> 한 번에 1~3개씩 부를 수 있어요." << endl;
 
+        cout << "\n교수님이 먼저 시작합니다." << endl;
+        cout << "교수님: ";
+        count++;
+        cout << count << " " << endl;
+
         while (true) {
-            // 플레이어 차례
             cout << "\n현재 숫자: " << count << endl;
             cout << ">> 몇 개 부를까요? (1/2/3): ";
+
             char key = getChoiceKey("123");
             int playerCall = key - '0';
             cout << key << endl;
@@ -218,12 +223,15 @@ public:
                 cout << "\n21을 불렀습니다! 당신이 졌어요..." << endl;
                 return false;
             }
-            int remaining = 21 - count;
+
             int computerCall;
 
-            if (remaining % 4 == 0) computerCall = 3;
-            else if (remaining % 4 == 1) computerCall = 3;
-            else computerCall = (remaining % 4) - 1;
+            if (count % 4 == 0) {
+                computerCall = 1;
+            }
+            else {
+                computerCall = 4 - (count % 4);
+            }
 
             if (computerCall < 1) computerCall = 1;
             if (computerCall > 3) computerCall = 3;
